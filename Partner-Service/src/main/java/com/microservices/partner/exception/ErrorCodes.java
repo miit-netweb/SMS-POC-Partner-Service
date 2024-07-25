@@ -6,7 +6,8 @@ public enum ErrorCodes {
 	
 	NO_PARTNER_EXIST(1015,"No such partner exist"),
 	INVALID_UUID(1016,"Partner number is invalid,wrong UUID"),
-	INVALID_SECRET_KEY(1017,"Partner number is invalid,wrong Secret Key");
+	INVALID_SECRET_KEY(1017,"Partner number is invalid,wrong Secret Key"),
+	SUBTYPE_NOT_FOUND(2020,"Subscription not Found");
 	
 	@Getter
 	private int errorCode;
