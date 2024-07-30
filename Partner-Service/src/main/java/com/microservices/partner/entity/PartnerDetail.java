@@ -20,4 +20,5 @@ public class PartnerDetail {
     private String partnerUuid;
     @Column(unique = true)
     private String partnerSecret;
+    
 }

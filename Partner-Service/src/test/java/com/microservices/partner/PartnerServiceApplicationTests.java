@@ -1,4 +1,4 @@
-package com.microservices.partner_service;
+package com.microservices.partner;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
