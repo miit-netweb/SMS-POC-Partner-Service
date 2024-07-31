@@ -39,7 +39,7 @@ public class PartnerService {
 		return true;
 	}
 
-	public boolean checkSubTypeDetails(SubscriptionData subData, Long partnerNumber) throws RuntimeException {
+	public SubscriptionType checkSubTypeDetails(SubscriptionData subData, Long partnerNumber) throws RuntimeException {
 		try {
 			Optional<SubscriptionType> subType = subtypeRepository.findSubscriptionType(partnerNumber,
 					subData.getSubtypeNumber(), subData.getPricingRoutine(), subData.getFrequency());
@@ -48,9 +48,10 @@ public class PartnerService {
 				throw new SubTypeNotFoundException(ErrorCodes.SUBTYPE_NOT_FOUND.getErrorCode(),
 					ErrorCodes.SUBTYPE_NOT_FOUND.getErrorMessage(), HttpStatus.BAD_REQUEST);
 			}
+			return subType.get();
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}
-		return true;
+
 	}
 }
