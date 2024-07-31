@@ -1,5 +1,7 @@
 package com.microservices.partner.controller;
 
+import com.microservices.partner.dto.SubscriptionData;
+import com.microservices.partner.entity.SubscriptionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +29,20 @@ public class PartnerController {
 	public ResponseEntity<?> validatePartner(@RequestBody PartnerServiceDto partnerServiceDto,
 			@PathVariable Long partnerNumber) {
 
-		return new ResponseEntity<>(
-				service.checkPartnerNumber(partnerServiceDto.getPartnerCredential(), partnerNumber)
-						&& service.checkSubTypeDetails(partnerServiceDto.getSubscriptionData(), partnerNumber),
-				HttpStatus.OK);
+
+
+		if(service.checkPartnerNumber(partnerServiceDto.getPartnerCredential(), partnerNumber)){
+			SubscriptionType subscriptionType = service.checkSubTypeDetails(partnerServiceDto.getSubscriptionData(), partnerNumber);
+			System.out.println(subscriptionType);
+			if(subscriptionType!=null){
+				return new ResponseEntity<>(new SubscriptionData(subscriptionType.getSubtypeNumber(),subscriptionType.getPricingRoutine(),subscriptionType.getFrequency()),HttpStatus.OK);
+			}
+			else {
+				return new ResponseEntity<>("Invalid Subscription Data",HttpStatus.BAD_REQUEST);
+			}
+		}
+		else {
+			return new ResponseEntity<>("Invalid Partner Credentials",HttpStatus.BAD_REQUEST);
+		}
 	}
 }

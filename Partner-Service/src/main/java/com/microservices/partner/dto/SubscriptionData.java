@@ -8,6 +8,13 @@ public class SubscriptionData {
 	
 	public SubscriptionData() {
 	}
+
+	public SubscriptionData(Long subtypeNumber, String pricingRoutine, String frequency) {
+		this.subtypeNumber = subtypeNumber;
+		this.pricingRoutine = pricingRoutine;
+		this.frequency = frequency;
+	}
+
 	public Long getSubtypeNumber() {
 		return subtypeNumber;
 	}
