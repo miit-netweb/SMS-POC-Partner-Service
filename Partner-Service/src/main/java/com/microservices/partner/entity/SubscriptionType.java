@@ -25,4 +25,16 @@ public class SubscriptionType {
 	@ManyToOne
 	@JoinColumn(name = "partnerNumber", nullable = false)
 	private PartnerDetail partnerNumber;
+
+	@Override
+	public String toString() {
+		return "SubscriptionType{" +
+				"id=" + id +
+				", subtypeNumber=" + subtypeNumber +
+				", pricingRoutine='" + pricingRoutine + '\'' +
+				", service='" + service + '\'' +
+				", frequency='" + frequency + '\'' +
+				", partnerNumber=" + partnerNumber +
+				'}';
+	}
 }

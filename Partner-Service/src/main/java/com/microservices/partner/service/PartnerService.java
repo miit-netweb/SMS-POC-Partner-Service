@@ -26,6 +26,8 @@ public class PartnerService {
 
 	public boolean checkPartnerNumber(PartnerCredential credential, Long partnerNumber) throws ValidationException {
 		PartnerDetail partnerDetail = partnerRepository.findByPartnerNumber(partnerNumber);
+		System.out.println(partnerDetail);
+		System.out.println(credential);
 		if (partnerDetail == null) {
 			throw new ValidationException(ErrorCodes.NO_PARTNER_EXIST.getErrorCode(),
 					ErrorCodes.NO_PARTNER_EXIST.getErrorMessage(), HttpStatus.BAD_REQUEST);
@@ -39,7 +41,7 @@ public class PartnerService {
 		return true;
 	}
 
-	public boolean checkSubTypeDetails(SubscriptionData subData, Long partnerNumber) throws RuntimeException {
+	public SubscriptionType checkSubTypeDetails(SubscriptionData subData, Long partnerNumber) throws RuntimeException {
 		try {
 			Optional<SubscriptionType> subType = subtypeRepository.findSubscriptionType(partnerNumber,
 					subData.getSubtypeNumber(), subData.getPricingRoutine(), subData.getFrequency());
@@ -48,9 +50,10 @@ public class PartnerService {
 				throw new SubTypeNotFoundException(ErrorCodes.SUBTYPE_NOT_FOUND.getErrorCode(),
 					ErrorCodes.SUBTYPE_NOT_FOUND.getErrorMessage(), HttpStatus.BAD_REQUEST);
 			}
+			return subType.get();
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}
-		return true;
+
 	}
 }
