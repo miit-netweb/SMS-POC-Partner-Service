@@ -49,8 +49,9 @@ public class PartnerService {
 					ErrorCodes.SUBTYPE_NOT_FOUND.getErrorMessage(), HttpStatus.BAD_REQUEST);
 			}
 			return subType.get();
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
+		} catch (RuntimeException e) {
+			throw new SubTypeNotFoundException(ErrorCodes.SUBTYPE_NOT_FOUND.getErrorCode(),
+					ErrorCodes.SUBTYPE_NOT_FOUND.getErrorMessage(), HttpStatus.BAD_REQUEST);
 		}
 
 	}
