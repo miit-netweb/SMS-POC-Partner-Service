@@ -26,6 +26,8 @@ public class PartnerService {
 
 	public boolean checkPartnerNumber(PartnerCredential credential, Long partnerNumber) throws ValidationException {
 		PartnerDetail partnerDetail = partnerRepository.findByPartnerNumber(partnerNumber);
+		System.out.println(partnerDetail);
+		System.out.println(credential);
 		if (partnerDetail == null) {
 			throw new ValidationException(ErrorCodes.NO_PARTNER_EXIST.getErrorCode(),
 					ErrorCodes.NO_PARTNER_EXIST.getErrorMessage(), HttpStatus.BAD_REQUEST);
