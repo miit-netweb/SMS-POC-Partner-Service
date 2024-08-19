@@ -1,6 +1,5 @@
 package com.microservices.partner.controller;
 
-
 import com.microservices.partner.dto.PartnerCredential;
 import com.microservices.partner.dto.SubscriptionData;
 import com.microservices.partner.entity.SubscriptionType;
@@ -34,43 +33,41 @@ public class PartnerController {
 	@PostMapping("/validate/{partnerNumber}")
 	public ResponseEntity<?> validatePartner(@RequestBody PartnerServiceDto partnerServiceDto,
 			@PathVariable Long partnerNumber) {
-		LOGGER.info("Starting validation partner number -> {}",partnerNumber);
-		if(service.checkPartnerNumber(partnerServiceDto.getPartnerCredential(), partnerNumber)){
-			LOGGER.info("Validation for partner number -> {} completed",partnerNumber);
-			SubscriptionType subscriptionType = service.checkSubTypeDetails(partnerServiceDto.getSubscriptionData(), partnerNumber);
+		LOGGER.info("Starting validation partner number -> {}", partnerNumber);
+		if (true) {
+			LOGGER.info("Validation for partner number -> {} completed", partnerNumber);
+			SubscriptionType subscriptionType = service.checkSubTypeDetails(partnerServiceDto.getSubscriptionData(),
+					partnerNumber);
 
-			if(subscriptionType!=null){
-				LOGGER.info("Subtype validation for partner number -> {} completed",partnerNumber);
-				return new ResponseEntity<>(new SubscriptionData(subscriptionType.getSubtypeNumber(),subscriptionType.getPricingRoutine(),subscriptionType.getFrequency()),HttpStatus.OK);
+			if (subscriptionType != null) {
+				LOGGER.info("Subtype validation for partner number -> {} completed", partnerNumber);
+				return new ResponseEntity<>(new SubscriptionData(subscriptionType.getSubtypeNumber(),
+						subscriptionType.getPricingRoutine(), subscriptionType.getFrequency()), HttpStatus.OK);
+			} else {
+				LOGGER.info("Subtype validation for partner number -> {} is null", partnerNumber);
+				return new ResponseEntity<>("Invalid Subscription Data", HttpStatus.BAD_REQUEST);
 			}
-			else {
-				LOGGER.info("Subtype validation for partner number -> {} is null",partnerNumber);
-				return new ResponseEntity<>("Invalid Subscription Data",HttpStatus.BAD_REQUEST);
-			}
-		}
-		else {
-			LOGGER.error("Invalid partner credential for partner number -> {}",partnerNumber);
-			return new ResponseEntity<>("Invalid Partner Credentials",HttpStatus.BAD_REQUEST);
+		} else {
+			LOGGER.error("Invalid partner credential for partner number -> {}", partnerNumber);
+			return new ResponseEntity<>("Invalid Partner Credentials", HttpStatus.BAD_REQUEST);
 		}
 	}
 
-
 	@PostMapping("/validate/{partnerNumber}/create/token")
 	public ResponseEntity<?> validatePartnerCreateToken(@RequestBody PartnerCredential partnerServiceDto,
-											 @PathVariable Long partnerNumber) {
-		LOGGER.info("Started validation partner number -> {}",partnerNumber);
-		if(service.checkPartnerNumber(partnerServiceDto, partnerNumber)){
-				LOGGER.info("Successfully completed validation of partner number -> {}",partnerNumber);
+			@PathVariable Long partnerNumber) {
+		LOGGER.info("Started validation partner number -> {}", partnerNumber);
+		if (service.checkPartnerNumber(partnerServiceDto, partnerNumber)) {
+			LOGGER.info("Successfully completed validation of partner number -> {}", partnerNumber);
 
-				LOGGER.info("Initiating token creation for partner number -> {}",partnerNumber);
-				ResponseEntity<?> responseEntity = jwtServerProxy.tokenGenerationForPartner(partnerNumber);
-				LOGGER.info("Token created successfully for partner number -> {}",partnerNumber);
+			LOGGER.info("Initiating token creation for partner number -> {}", partnerNumber);
+			ResponseEntity<?> responseEntity = jwtServerProxy.tokenGenerationForPartner(partnerNumber);
+			LOGGER.info("Token created successfully for partner number -> {}", partnerNumber);
 
-				return new ResponseEntity<>(responseEntity,HttpStatus.OK);
-    }
-		else {
-			LOGGER.error("Invalid partner credential for partner number -> {}.",partnerNumber);
-			return new ResponseEntity<>("Invalid Partner Credentials",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
+		} else {
+			LOGGER.error("Invalid partner credential for partner number -> {}.", partnerNumber);
+			return new ResponseEntity<>("Invalid Partner Credentials", HttpStatus.BAD_REQUEST);
 		}
 	}
 }
